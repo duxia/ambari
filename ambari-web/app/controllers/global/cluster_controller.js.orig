@@ -108,19 +108,10 @@ App.ClusterController = Em.Controller.extend({
           }
           dfd.resolve();
         });
-	  App.ajax.send({
-		name: 'admin.security.cluster_configs',
-		sender: this,
-		success: 'checkLegal'
-    	});
     }
     return dfd.promise()
   },
-  
-  checkLegal: function (data){
-    if(data.hosts.length < data.Clusters.node_num){App.set('legal',true);}
-  },
-  
+
   loadClusterNameSuccessCallback: function (data) {
     if (data.items && data.items.length > 0) {
       App.set('clusterName', data.items[0].Clusters.cluster_name);

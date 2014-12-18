@@ -270,7 +270,7 @@ public class ClusterControllerImpl implements ClusterController {
     if (provider != null) {
 
       checkProperties(type, request, null);
-      System.out.println("cjwhust here is create resources!!!!!!!");
+
       return provider.createResources(request);
     }
     return null;

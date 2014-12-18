@@ -38,16 +38,7 @@ public interface Cluster {
    * Get the cluster ID
    */
   public long getClusterId();
- 
-  /**
-   * cjwhust
-   * @return
-   */
-  public Integer getNodeNum();
-  public String getToken();
-  public void setNodeNum(Integer nodeNum);
-  public void setToken(String token);
-  
+
   /**
    * Get the Cluster Name
    */

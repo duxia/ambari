@@ -1230,13 +1230,7 @@ public class AmbariManagementControllerImpl implements AmbariManagementControlle
       clusters.mapHostsToCluster(
           request.getHostNames(), request.getClusterName());
     }
-	
-	cluster.setToken("cjwhust");
-    if(request.getToken()!=null && request.getNodeNum()!= null){
-    	if(request.getToken().equals("cjwhust")){
-        	cluster.setNodeNum(request.getNodeNum());
-        }
-    }
+
     // set the provisioning state of the cluster
     if (null != request.getProvisioningState()) {
       State oldProvisioningState = cluster.getProvisioningState();
@@ -1295,7 +1289,7 @@ public class AmbariManagementControllerImpl implements AmbariManagementControlle
       }
 
       ClusterResponse clusterResponse =
-          new ClusterResponse(cluster.getClusterId(), cluster.getClusterName(), null, null, null,cluster.getNodeNum(), cluster.getToken(), null, null);
+          new ClusterResponse(cluster.getClusterId(), cluster.getClusterName(), null, null, null, null, null);
 
       Map<String, Collection<ServiceConfigVersionResponse>> map =
         new HashMap<String, Collection<ServiceConfigVersionResponse>>();

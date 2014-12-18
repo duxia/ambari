@@ -33,7 +33,6 @@ module.exports = Em.Application.create({
     recordCache: []
   }),
   isAdmin: false,
-  legal: false,
   isOperator: false,
   isManager: function() {
     return this.get('isAdmin') || this.get('isOperator');

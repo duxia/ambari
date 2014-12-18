@@ -637,42 +637,6 @@ public class ClusterImpl implements Cluster {
     }
 
   }
-  
-  @Override
-  public void setNodeNum(Integer nodeNum){
-	  clusterGlobalLock.readLock().lock();
-	    try {
-	      writeLock.lock();
-	      try {
-//	        Integer oldNum = clusterEntity.getNodeNum();
-	        clusterEntity.setNodeNum(nodeNum);
-	        clusterDAO.merge(clusterEntity); //RollbackException possibility if UNIQUE constraint violated
-//	        clusters.updateClusterName(oldNum, nodeNum);
-	      } finally {
-	        writeLock.unlock();
-	      }
-	    } finally {
-	      clusterGlobalLock.readLock().unlock();
-	    }
-  }
-  
-  @Override
-  public void setToken(String token){
-	  clusterGlobalLock.readLock().lock();
-	    try {
-	      writeLock.lock();
-	      try {
-//	        Integer oldNum = clusterEntity.getNodeNum();
-	        clusterEntity.setToken(token);
-	        clusterDAO.merge(clusterEntity); //RollbackException possibility if UNIQUE constraint violated
-//	        clusters.updateClusterName(oldNum, nodeNum);
-	      } finally {
-	        writeLock.unlock();
-	      }
-	    } finally {
-	      clusterGlobalLock.readLock().unlock();
-	    }
-  }
 
   public void addServiceComponentHost(
     ServiceComponentHost svcCompHost) throws AmbariException {
@@ -855,36 +819,6 @@ public class ClusterImpl implements Cluster {
       clusterGlobalLock.readLock().unlock();
     }
 
-  }
-  
-  @Override
-  public Integer getNodeNum(){
-	  clusterGlobalLock.readLock().lock();
-	    try {
-	      readLock.lock();
-	      try {
-	        return clusterEntity.getNodeNum();
-	      } finally {
-	        readLock.unlock();
-	      }
-	    } finally {
-	      clusterGlobalLock.readLock().unlock();
-	    }
-  }
-  
-  @Override
-  public String getToken(){
-	  clusterGlobalLock.readLock().lock();
-	    try {
-	      readLock.lock();
-	      try {
-	        return clusterEntity.getToken();
-	      } finally {
-	        readLock.unlock();
-	      }
-	    } finally {
-	      clusterGlobalLock.readLock().unlock();
-	    }
   }
 
   @Override
@@ -1226,9 +1160,8 @@ public class ClusterImpl implements Cluster {
     } finally {
       clusterGlobalLock.readLock().unlock();
     }
+
   }
-  
-  
 
   @Override
   public ClusterResponse convertToResponse()
@@ -1241,7 +1174,6 @@ public class ClusterImpl implements Cluster {
 
         return new ClusterResponse(getClusterId(),
           getClusterName(), getProvisioningState(), hosts.keySet(), hosts.size(),
-		  getNodeNum(), getToken(),
           getDesiredStackVersion().getStackId(), getClusterHealthReport());
       } finally {
         readWriteLock.readLock().unlock();

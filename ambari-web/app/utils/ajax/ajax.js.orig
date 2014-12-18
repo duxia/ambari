@@ -1105,8 +1105,7 @@ var urls = {
     'mock': '',
     'format': function() {
       return {
-        timeout: 10000,
-        async: false
+        timeout: 10000
       };
     }
   },

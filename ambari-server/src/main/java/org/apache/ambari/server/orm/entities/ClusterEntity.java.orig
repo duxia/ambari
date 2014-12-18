@@ -67,14 +67,6 @@ public class ClusterEntity {
   @Basic
   @Column(name = "desired_cluster_state", insertable = true, updatable = true)
   private String desiredClusterState = "";
-  
-  @Basic
-  @Column(name = "token", insertable = true, updatable = true)
-  private String token = "";
-  
-  @Basic
-  @Column(name = "node_num", insertable = true, updatable = true)
-  private Integer nodeNum = 7;
 
   @Basic
   @Column(name = "cluster_info", insertable = true, updatable = true)
@@ -154,22 +146,6 @@ public class ClusterEntity {
     this.desiredStackVersion = desiredStackVersion;
   }
   
-  public String getToken() {
-	return token;
-  }
-  
-  public void setToken(String token) {
-	this.token = token;
-  }
-  
-  public Integer getNodeNum() {
-	return nodeNum;
-  }
-  
-  public void setNodeNum(Integer nodeNum) {
-	this.nodeNum = nodeNum;
-  }
-  
   /**
    * Gets whether the cluster is still initializing or has finished with its 
    * deployment requests.
@@ -201,8 +177,6 @@ public class ClusterEntity {
 
     if (!clusterId.equals(that.clusterId)) return false;
     if (!clusterName.equals(that.clusterName)) return false;
-	if (!nodeNum.equals(that.nodeNum)) return false;
-	if (!token.equals(that.token)) return false;
 
     return true;
   }
@@ -211,8 +185,6 @@ public class ClusterEntity {
   public int hashCode() {
     int result = clusterId.hashCode();
     result = 31 * result + clusterName.hashCode();
-	result = 31 * result + nodeNum.hashCode();
-	result = 31 * result + token.hashCode();
     return result;
   }
 

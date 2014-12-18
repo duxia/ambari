@@ -31,10 +31,6 @@ public class ClusterRequest {
   private String clusterName; // for GET/CREATE/UPDATE
 
   private String stackVersion; // for CREATE/UPDATE
-  
-  private String token;
-  
-  private Integer nodeNum;
 
   private String provisioningState; // for GET/CREATE/UPDATE
   
@@ -45,20 +41,17 @@ public class ClusterRequest {
   private ServiceConfigVersionRequest serviceConfigVersionRequest = null;
 
   public ClusterRequest(Long clusterId, String clusterName, 
-      String stackVersion,Integer nodeNum, String token, Set<String> hostNames) {
-    this(clusterId, clusterName, null, stackVersion, nodeNum, token, hostNames);
+      String stackVersion, Set<String> hostNames) {
+    this(clusterId, clusterName, null, stackVersion, hostNames);
   }  
   
   public ClusterRequest(Long clusterId, String clusterName, 
-      String provisioningState, String stackVersion, 
-	  Integer nodeNum, String token, Set<String> hostNames) {
+      String provisioningState, String stackVersion, Set<String> hostNames) {
     super();
     this.clusterId = clusterId;
     this.clusterName = clusterName;
     this.provisioningState = provisioningState;
     this.stackVersion = stackVersion;
-	this.token = token;
-	this.nodeNum = nodeNum;
     this.hostNames = hostNames;    
   }
   
@@ -76,21 +69,6 @@ public class ClusterRequest {
     return clusterName;
   }
   
-  public String getToken() {
-	return token;
-  }
-  
-  public void setToken(String token) {
-	this.token = token;
-  }
-  
-  public Integer getNodeNum() {
-	return nodeNum;
-  }
-  
-  public void setNodeNum(Integer nodeNum) {
-	this.nodeNum = nodeNum;
-  }
   /**
    * Gets whether the cluster is still initializing or has finished with its
    * deployment requests.
@@ -114,7 +92,7 @@ public class ClusterRequest {
     this.provisioningState = provisioningState;
   }
 
-/**
+  /**
    * @return the stackVersion
    */
   public String getStackVersion() {
@@ -175,7 +153,6 @@ public class ClusterRequest {
         .append(", provisioningState=").append(provisioningState)
         .append(", stackVersion=").append(stackVersion)
         .append(", desired_scv=").append(serviceConfigVersionRequest)
-		.append(", nodeNum=").append(nodeNum)
         .append(", hosts=[");
     if (hostNames != null) {
       int i = 0;
