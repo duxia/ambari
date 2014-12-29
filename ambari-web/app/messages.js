@@ -19,7 +19,7 @@
 Em.I18n.translations = {
 
   'app.name':'前信闪电大数据系统',
-  'app.name.subtitle':'Ambari - {0}',
+  'app.name.subtitle':'前信闪电大数据系统 - {0}',
   'app.name.subtitle.experimental':'Ambari Experimental',
   'app.reloadPopup.link': '重新加载页面',
   'app.reloadPopup.text': '连接服务器...',
