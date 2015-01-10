@@ -6,6 +6,7 @@
         "Clusters/version",
         "Clusters/state",		
         "Clusters/token",
+        "Clusters/init_time",
 		"Clusters/node_num",        
         "Clusters/desired_configs",
         "Clusters/desired_service_config_versions",

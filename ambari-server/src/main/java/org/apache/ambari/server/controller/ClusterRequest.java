@@ -34,6 +34,8 @@ public class ClusterRequest {
   
   private String token;
   
+  private String init_time;
+  
   private Integer nodeNum;
 
   private String provisioningState; // for GET/CREATE/UPDATE
@@ -45,19 +47,20 @@ public class ClusterRequest {
   private ServiceConfigVersionRequest serviceConfigVersionRequest = null;
 
   public ClusterRequest(Long clusterId, String clusterName, 
-      String stackVersion,Integer nodeNum, String token, Set<String> hostNames) {
-    this(clusterId, clusterName, null, stackVersion, nodeNum, token, hostNames);
+      String stackVersion,Integer nodeNum, String token, String init_time, Set<String> hostNames) {
+    this(clusterId, clusterName, null, stackVersion, nodeNum, token, init_time, hostNames);
   }  
   
   public ClusterRequest(Long clusterId, String clusterName, 
       String provisioningState, String stackVersion, 
-	  Integer nodeNum, String token, Set<String> hostNames) {
+	  Integer nodeNum, String token, String init_time, Set<String> hostNames) {
     super();
     this.clusterId = clusterId;
     this.clusterName = clusterName;
     this.provisioningState = provisioningState;
     this.stackVersion = stackVersion;
 	this.token = token;
+	this.init_time = init_time;
 	this.nodeNum = nodeNum;
     this.hostNames = hostNames;    
   }
@@ -83,6 +86,14 @@ public class ClusterRequest {
   public void setToken(String token) {
 	this.token = token;
   }
+  
+  public String getInitTime() {
+	  return init_time;
+  }
+  
+  public void setInitTime(String init_time) {
+	this.init_time = init_time;
+}
   
   public Integer getNodeNum() {
 	return nodeNum;
@@ -176,6 +187,7 @@ public class ClusterRequest {
         .append(", stackVersion=").append(stackVersion)
         .append(", desired_scv=").append(serviceConfigVersionRequest)
 		.append(", nodeNum=").append(nodeNum)
+		.append(", init_time=").append(init_time)
         .append(", hosts=[");
     if (hostNames != null) {
       int i = 0;

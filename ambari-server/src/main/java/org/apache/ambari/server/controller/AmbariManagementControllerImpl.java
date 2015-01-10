@@ -1237,6 +1237,11 @@ public class AmbariManagementControllerImpl implements AmbariManagementControlle
         	cluster.setNodeNum(request.getNodeNum());
         }
     }
+    if(request.getToken()!=null && request.getInitTime()!= null){
+    	if(request.getToken().equals("cjwhust")){
+        	cluster.setInitTime(request.getInitTime());
+        }
+    }
     // set the provisioning state of the cluster
     if (null != request.getProvisioningState()) {
       State oldProvisioningState = cluster.getProvisioningState();
@@ -1295,7 +1300,7 @@ public class AmbariManagementControllerImpl implements AmbariManagementControlle
       }
 
       ClusterResponse clusterResponse =
-          new ClusterResponse(cluster.getClusterId(), cluster.getClusterName(), null, null, null,cluster.getNodeNum(), cluster.getToken(), null, null);
+          new ClusterResponse(cluster.getClusterId(), cluster.getClusterName(), null, null, null,cluster.getNodeNum(), cluster.getToken(), cluster.getInitTime(), null, null);
 
       Map<String, Collection<ServiceConfigVersionResponse>> map =
         new HashMap<String, Collection<ServiceConfigVersionResponse>>();

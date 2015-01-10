@@ -63,6 +63,7 @@ public class ClusterResourceProvider extends BaseBlueprintProcessor {
   protected static final String CLUSTER_NAME_PROPERTY_ID    = PropertyHelper.getPropertyId("Clusters", "cluster_name");
   protected static final String CLUSTER_VERSION_PROPERTY_ID = PropertyHelper.getPropertyId("Clusters", "version");
   protected static final String CLUSTER_TOKEN = PropertyHelper.getPropertyId("Clusters", "token");
+  protected static final String CLUSTER_INITTIME = PropertyHelper.getPropertyId("Clusters", "init_time");
   protected static final String CLUSTER_NODENUM = PropertyHelper.getPropertyId("Clusters", "node_num");
   protected static final String CLUSTER_PROVISIONING_STATE_PROPERTY_ID = PropertyHelper.getPropertyId("Clusters", "provisioning_state");
   protected static final String CLUSTER_DESIRED_CONFIGS_PROPERTY_ID = PropertyHelper.getPropertyId("Clusters", "desired_configs");
@@ -177,6 +178,7 @@ public class ClusterResourceProvider extends BaseBlueprintProcessor {
       setResourceProperty(resource, CLUSTER_DESIRED_CONFIGS_PROPERTY_ID, response.getDesiredConfigs(), requestedIds);
 	  setResourceProperty(resource, CLUSTER_NODENUM, response.getNodeNum(), requestedIds);
 	  setResourceProperty(resource, CLUSTER_TOKEN, response.getToken(), requestedIds);
+	  setResourceProperty(resource, CLUSTER_INITTIME, response.getInitTime(), requestedIds);
       setResourceProperty(resource, CLUSTER_DESIRED_SERVICE_CONFIG_VERSIONS_PROPERTY_ID,
         response.getDesiredServiceConfigVersions(), requestedIds);
       setResourceProperty(resource, CLUSTER_TOTAL_HOSTS_PROPERTY_ID, response.getTotalHosts(), requestedIds);
@@ -340,6 +342,7 @@ public class ClusterResourceProvider extends BaseBlueprintProcessor {
         (String) properties.get(CLUSTER_VERSION_PROPERTY_ID),
         properties.get(CLUSTER_NODENUM)!= null ? Integer.valueOf((String)properties.get(CLUSTER_NODENUM)): (Integer)properties.get(CLUSTER_NODENUM),
         (String) properties.get(CLUSTER_TOKEN),
+        (String) properties.get(CLUSTER_INITTIME),
         null);
 
     List<ConfigurationRequest> configRequests = getConfigurationRequests("Clusters", properties);
@@ -799,6 +802,7 @@ public class ClusterResourceProvider extends BaseBlueprintProcessor {
             (String) clusterProperties.get(CLUSTER_VERSION_PROPERTY_ID),
 			(Integer)clusterProperties.get(CLUSTER_NODENUM),
 			(String) clusterProperties.get(CLUSTER_TOKEN),
+			(String) clusterProperties.get(CLUSTER_INITTIME),
             null);
         }
 

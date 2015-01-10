@@ -38,6 +38,8 @@ public class ClusterResponse {
   
   private String token;
   
+  private String init_time;
+  
   private Integer nodeNum;
 
   private final String desiredStackVersion;
@@ -54,7 +56,7 @@ public class ClusterResponse {
   
   public ClusterResponse(Long clusterId, String clusterName,
     State provisioningState, Set<String> hostNames, Integer totalHosts,
-	Integer nodeNum, String token,
+	Integer nodeNum, String token, String init_time, 
     String desiredStackVersion, ClusterHealthReport clusterHealthReport) {
 
     super();
@@ -65,6 +67,7 @@ public class ClusterResponse {
     this.desiredStackVersion = desiredStackVersion;
     this.clusterHealthReport = clusterHealthReport;
 	this.token = token;
+	this.init_time = init_time;
 	this.nodeNum = nodeNum;
     
     if (null != provisioningState)
@@ -112,6 +115,7 @@ public class ClusterResponse {
         + ", desiredStackVersion=" + desiredStackVersion
         + ", totalHosts=" + totalHosts
 		+ ", nodeNum=" + nodeNum
+		+ ", init_time=" + init_time
         + ", hosts=[");
     
     if (hostNames != null) {
@@ -153,6 +157,10 @@ public class ClusterResponse {
     	!nodeNum.equals(that.nodeNum) : that.nodeNum != null){
        return false;
     }
+    if (init_time != null ?
+    	!init_time.equals(that.init_time) : that.init_time != null){
+       return false;
+    }
     
     return true;
   }
@@ -163,6 +171,7 @@ public class ClusterResponse {
     result = 71 * result + (clusterName != null ? clusterName.hashCode() : 0);
     result = 71 * result + (nodeNum != null ? nodeNum.intValue() : 0);
     result = 71 * result + (token != null ? token.hashCode() : 0);
+    result = 71 * result + (init_time != null ? init_time.hashCode() : 0);
     return result;
   }
 
@@ -193,6 +202,14 @@ public class ClusterResponse {
   
   public void setToken(String token) {
 	this.token = token;
+  }
+  
+  public String getInitTime() {
+	return init_time;
+  }
+  
+  public void setInitTime(String init_time) {
+	this.init_time = init_time;
   }
   
   public Integer getNodeNum() {

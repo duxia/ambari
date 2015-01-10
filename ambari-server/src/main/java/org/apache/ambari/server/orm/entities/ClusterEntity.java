@@ -22,7 +22,9 @@ import javax.persistence.*;
 
 import org.apache.ambari.server.state.State;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 
 import static org.apache.commons.lang.StringUtils.defaultString;
 
@@ -71,6 +73,11 @@ public class ClusterEntity {
   @Basic
   @Column(name = "token", insertable = true, updatable = true)
   private String token = "";
+  
+  @Basic
+  @Column(name = "init_time", insertable = true, updatable = true)
+  private String init_time = "2015-01-08 15:11:21";
+//  private String init_time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
   
   @Basic
   @Column(name = "node_num", insertable = true, updatable = true)
@@ -161,6 +168,14 @@ public class ClusterEntity {
   public void setToken(String token) {
 	this.token = token;
   }
+  
+  public String getInitTime() {
+	return init_time;
+  }
+  
+  public void setInitTime(String init_time) {
+	this.init_time = init_time;
+}
   
   public Integer getNodeNum() {
 	return nodeNum;
