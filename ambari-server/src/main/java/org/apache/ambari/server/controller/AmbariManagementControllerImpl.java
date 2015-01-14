@@ -2478,7 +2478,12 @@ public class AmbariManagementControllerImpl implements AmbariManagementControlle
       if (null == u) {
         continue;
       }
-
+      //add createtime
+      if(request.getToken()!=null && request.getCreateTime()!= null){
+      	if(request.getToken().equals("cjwhust")){
+          	users.setCreateTime(u.getUserName(), request.getCreateTime());
+          }
+      }
       if (null != request.getOldPassword() && null != request.getPassword()) {
         users.modifyPassword(u.getUserName(), request.getOldPassword(),
             request.getPassword());
@@ -2837,7 +2842,7 @@ public class AmbariManagementControllerImpl implements AmbariManagementControlle
       // get them all
       if (null == r.getUsername()) {
         for (User u : users.getAllUsers()) {
-          UserResponse resp = new UserResponse(u.getUserName(), u.isLdapUser(), u.isActive(), u.isAdmin());
+          UserResponse resp = new UserResponse(u.getUserName(), u.getCreateTime(), u.isLdapUser(), u.isActive(), u.isAdmin());
           resp.setGroups(new HashSet<String>(u.getGroups()));
           responses.add(resp);
         }
@@ -2852,7 +2857,7 @@ public class AmbariManagementControllerImpl implements AmbariManagementControlle
                 + r.getUsername() + "'");
           }
         } else {
-          UserResponse resp = new UserResponse(u.getUserName(), u.isLdapUser(), u.isActive(), u.isAdmin());
+          UserResponse resp = new UserResponse(u.getUserName(), u.getCreateTime(), u.isLdapUser(), u.isActive(), u.isAdmin());
           resp.setGroups(new HashSet<String>(u.getGroups()));
           responses.add(resp);
         }

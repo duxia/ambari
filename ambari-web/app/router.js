@@ -218,20 +218,33 @@ App.Router = Em.Router.extend({
   },
 
   loginSuccessCallback: function(data, opt, params) {
-    console.log('login success');
-    App.usersMapper.map({"items": [data]});
-    this.setUserLoggedIn(params.loginName);
-    App.router.get('mainViewsController').loadAmbariViews();
-    App.ajax.send({
-      name: 'router.login.clusters',
-      sender: this,
-      data: {
-        loginName: params.loginName,
-        loginData: data
-      },
-      success: 'loginGetClustersSuccessCallback',
-      error: 'loginGetClustersErrorCallback'
-    });
+    var dateNow = new Date().getTime();
+	var dateOld = data.Users.create_time;
+	if((dateNow-dateOld)/(60*60*1000*24) > 0 && (dateNow-dateOld)/(60*60*1000*24) < 365) {
+		App.set('dateLimit',(dateNow-dateOld)/(60*60*1000*24)+"天");
+		App.set('isTimeValid',true);
+		console.log('login success');
+		App.usersMapper.map({"items": [data]});
+		this.setUserLoggedIn(params.loginName);
+		App.router.get('mainViewsController').loadAmbariViews();
+		App.ajax.send({
+		  name: 'router.login.clusters',
+		  sender: this,
+		  data: {
+			loginName: params.loginName,
+			loginData: data
+		  },
+		  success: 'loginGetClustersSuccessCallback',
+		  error: 'loginGetClustersErrorCallback'
+		});
+	} else {
+		App.set('dateLimit',(dateNow-dateOld)/(60*60*1000*24)+"天");
+		App.set('isTimeValid',false);
+		var controller = this.get('loginController');
+		console.log("login error: Time is up");
+		this.setAuthenticated(false);
+		controller.postLogin(true, false, "timeup");
+	}
   },
 
   loginErrorCallback: function(request, ajaxOptions, error, opt) {

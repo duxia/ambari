@@ -19,11 +19,13 @@ package org.apache.ambari.server.security.authorization;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.persistence.EntityManager;
 
 import org.apache.ambari.server.AmbariException;
@@ -185,6 +187,21 @@ public class Users {
     }
   }
 
+  /**
+   * Set CreateTime(addition)
+   * @param userName
+   * @param createTime
+   * @throws AmbariException
+   */
+  public synchronized void setCreateTime(String userName, Date createTime) throws AmbariException {
+	    UserEntity userEntity = userDAO.findUserByName(userName);
+	    if (userEntity != null) {
+	      userEntity.setCreateTime(createTime);
+	      userDAO.merge(userEntity);
+	    } else {
+	      throw new AmbariException("User " + userName + " doesn't exist");
+	    }
+	  }
   /**
    * Converts user to LDAP user.
    *

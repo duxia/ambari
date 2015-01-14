@@ -33,7 +33,7 @@ public class User {
   final int userId;
   final String userName;
   final boolean ldapUser;
-  final Date createTime;
+  Date createTime;
   final boolean active;
   final Collection<String> groups = new ArrayList<String>();
   boolean admin = false;
@@ -71,6 +71,9 @@ public class User {
     return createTime;
   }
 
+  public void setCreateTime(Date createTime) {
+	this.createTime = createTime;
+}
   public boolean isActive() {
     return active;
   }

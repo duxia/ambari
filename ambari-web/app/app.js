@@ -34,6 +34,8 @@ module.exports = Em.Application.create({
   }),
   isAdmin: false,
   legal: false,
+  isTimeValid: false,
+  dateLimit: null,
   isOperator: false,
   isManager: function() {
     return this.get('isAdmin') || this.get('isOperator');

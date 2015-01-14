@@ -286,6 +286,7 @@ Em.I18n.translations = {
   'login.loginButton':'登录',
   'login.error.bad.credentials':'登录失败，无效的用户名或密码.',
   'login.error.disabled':'登录失败，无效的用户名或密码.',	//new_version
+  'login.error.timeup':'登录失败，证书时间到期，请联系前海信息技术有限公司.',	//new_version
   'login.error.bad.connection':'连不上服务器，请确认服务器是否已经启动.',
 
   'graphs.noData.title': '没有数据',

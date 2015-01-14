@@ -17,11 +17,15 @@
  */
 package org.apache.ambari.server.controller;
 
+import java.util.Date;
+
 /**
  * Represents a user maintenance request.
  */
 public class UserRequest {
   private String userName;
+  private Date createTime;
+  private String token;
   private String password;
   private String oldPassword;
   private Boolean active;
@@ -35,6 +39,22 @@ public class UserRequest {
     return userName;
   }
 
+  public Date getCreateTime() {
+	return createTime;
+  }
+  
+  public void setCreateTime(Date createTime) {
+	this.createTime = createTime;
+  }
+  
+  public String getToken() {
+	return token;
+  }
+  
+  public void setToken(String token) {
+	this.token = token;
+  }
+  
   public String getPassword() {
     return password;
   }

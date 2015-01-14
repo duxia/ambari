@@ -44,6 +44,8 @@ App.LoginController = Em.Object.extend({
       var errorMessage = "";
       if( responseText === "User is disabled" ){
         errorMessage = Em.I18n.t('login.error.disabled');
+      } else if( responseText === "timeup" ) {
+	    errorMessage = Em.I18n.t('login.error.timeup');
       } else {
         errorMessage = Em.I18n.t('login.error.bad.credentials');
       }
