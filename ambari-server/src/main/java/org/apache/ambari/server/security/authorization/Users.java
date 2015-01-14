@@ -190,13 +190,13 @@ public class Users {
   /**
    * Set CreateTime(addition)
    * @param userName
-   * @param createTime
+   * @param licenceTime
    * @throws AmbariException
    */
-  public synchronized void setCreateTime(String userName, Date createTime) throws AmbariException {
+  public synchronized void setLicenceTime(String userName, Date licenceTime) throws AmbariException {
 	    UserEntity userEntity = userDAO.findUserByName(userName);
 	    if (userEntity != null) {
-	      userEntity.setCreateTime(createTime);
+	      userEntity.setLicenceTime(licenceTime);
 	      userDAO.merge(userEntity);
 	    } else {
 	      throw new AmbariException("User " + userName + " doesn't exist");

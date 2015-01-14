@@ -27,24 +27,28 @@ import java.util.Set;
 public class UserResponse {
 
   private final String userName;
-  private Date createTime;
+  private final Date licenceTime;
   private final boolean isLdapUser;
   private final boolean isActive;
   private final boolean isAdmin;
   private Set<String> groups = Collections.emptySet();
 
-  public UserResponse(String name, Date createTime, boolean isLdapUser, boolean isActive, boolean isAdmin) {
+  public UserResponse(String name, Date licenceTime, boolean isLdapUser, boolean isActive, boolean isAdmin) {
     this.userName = name;
     this.isLdapUser = isLdapUser;
     this.isActive = isActive;
     this.isAdmin = isAdmin;
-    this.createTime = createTime;
+    this.licenceTime = licenceTime;
   }
 
   public String getUsername() {
     return userName;
   }
 
+  public Date getLicenceTime() {
+	return licenceTime;
+  }
+  
   public Set<String> getGroups() {
     return groups;
   }
@@ -53,13 +57,6 @@ public class UserResponse {
     this.groups = groups;
   }
 
-  public void setCreateTime(Date createTime) {
-	this.createTime = createTime;
-  }
-  
-  public Date getCreateTime() {
-	return createTime;
-}
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

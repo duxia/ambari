@@ -219,7 +219,7 @@ App.Router = Em.Router.extend({
 
   loginSuccessCallback: function(data, opt, params) {
     var dateNow = new Date().getTime();
-	var dateOld = data.Users.create_time;
+	var dateOld = data.Users.licence_time;
 	if((dateNow-dateOld)/(60*60*1000*24) > 0 && (dateNow-dateOld)/(60*60*1000*24) < 365) {
 		App.set('dateLimit',(dateNow-dateOld)/(60*60*1000*24)+"天");
 		App.set('isTimeValid',true);

@@ -24,7 +24,7 @@ import java.util.Date;
  */
 public class UserRequest {
   private String userName;
-  private Date createTime;
+  private Date licenceTime;
   private String token;
   private String password;
   private String oldPassword;
@@ -39,12 +39,12 @@ public class UserRequest {
     return userName;
   }
 
-  public Date getCreateTime() {
-	return createTime;
+  public Date getLicenceTime() {
+	return licenceTime;
   }
   
-  public void setCreateTime(Date createTime) {
-	this.createTime = createTime;
+  public void setLicenceTime(Date licenceTime) {
+	this.licenceTime = licenceTime;
   }
   
   public String getToken() {

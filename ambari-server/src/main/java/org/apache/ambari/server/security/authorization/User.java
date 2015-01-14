@@ -33,7 +33,8 @@ public class User {
   final int userId;
   final String userName;
   final boolean ldapUser;
-  Date createTime;
+  final Date createTime;
+  final Date licenceTime;
   final boolean active;
   final Collection<String> groups = new ArrayList<String>();
   boolean admin = false;
@@ -42,6 +43,7 @@ public class User {
     userId = userEntity.getUserId();
     userName = userEntity.getUserName();
     createTime = userEntity.getCreateTime();
+    licenceTime = userEntity.getLicenceTime();
     ldapUser = userEntity.getLdapUser();
     active = userEntity.getActive();
     for (MemberEntity memberEntity : userEntity.getMemberEntities()) {
@@ -71,9 +73,10 @@ public class User {
     return createTime;
   }
 
-  public void setCreateTime(Date createTime) {
-	this.createTime = createTime;
-}
+  public Date getLicenceTime() {
+	return licenceTime;
+  }
+  
   public boolean isActive() {
     return active;
   }

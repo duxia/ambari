@@ -19,6 +19,10 @@ package org.apache.ambari.server.orm.entities;
 
 import javax.persistence.*;
 
+import org.apache.ambari.server.state.cluster.EncryptData;
+
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -53,6 +57,10 @@ public class UserEntity {
   @Basic
   private String userPassword;
 
+  @Column(name = "licence_time")
+  @Basic
+  private String licenceTime = "2015-01-08 16:11:00";
+  
   @Column(name = "create_time")
   @Basic
   @Temporal(value = TemporalType.TIMESTAMP)
@@ -117,6 +125,40 @@ public class UserEntity {
     this.createTime = createTime;
   }
 
+  /**
+   * @input encrypt LicenceTime from db (type String)
+   * @return decrypt LicenceTime (type Date)
+   */
+  public Date getLicenceTime() {
+	Date decryptLicenceTime = createTime;
+	String decryptTimeString;
+	try {
+		decryptTimeString = new String(EncryptData.decrypt(licenceTime.getBytes("ISO-8859-1"), "frontsurf"));
+		decryptLicenceTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(decryptTimeString);
+	} catch (UnsupportedEncodingException e) {
+		e.printStackTrace();
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	return decryptLicenceTime;
+  }
+  
+  /**
+   * 
+   * @param decrypt licenceTime from request (type Date)
+   * @output encrypt licenceTime to db (type String)
+   */
+  public void setLicenceTime(Date licenceTime) {
+	String encryptLicenceTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(licenceTime);
+	try {
+		this.licenceTime = new String(EncryptData.encrypt(encryptLicenceTime.getBytes(), "frontsurf"), "ISO-8859-1");
+	} catch (UnsupportedEncodingException e) {
+		e.printStackTrace();
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+  }
+  
   public Set<MemberEntity> getMemberEntities() {
     return memberEntities;
   }
