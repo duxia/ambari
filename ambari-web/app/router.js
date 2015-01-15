@@ -221,7 +221,8 @@ App.Router = Em.Router.extend({
     var dateNow = new Date().getTime();
 	var dateOld = data.Users.licence_time;
 	if((dateNow-dateOld)/(60*60*1000*24) > 0 && (dateNow-dateOld)/(60*60*1000*24) < 365) {
-		App.set('dateLimit',(dateNow-dateOld)/(60*60*1000*24)+"天");
+		var str = "距离证书到期还有:"+Math.floor(365-(dateNow-dateOld)/(60*60*1000*24))+"天";
+		App.set('dateLimit',str);
 		App.set('isTimeValid',true);
 		console.log('login success');
 		App.usersMapper.map({"items": [data]});
@@ -238,7 +239,7 @@ App.Router = Em.Router.extend({
 		  error: 'loginGetClustersErrorCallback'
 		});
 	} else {
-		App.set('dateLimit',(dateNow-dateOld)/(60*60*1000*24)+"天");
+		App.set('dateLimit',"证书已到期！");
 		App.set('isTimeValid',false);
 		var controller = this.get('loginController');
 		console.log("login error: Time is up");
