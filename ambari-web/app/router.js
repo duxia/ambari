@@ -243,8 +243,19 @@ App.Router = Em.Router.extend({
 		App.set('isTimeValid',false);
 		var controller = this.get('loginController');
 		console.log("login error: Time is up");
-		this.setAuthenticated(false);
+		App.usersMapper.map({"items": [data]});
+		this.setUserLoggedIn(params.loginName);
 		controller.postLogin(true, false, "timeup");
+		App.ajax.send({
+		  name: 'router.login.clusters',
+		  sender: this,
+		  data: {
+			loginName: params.loginName,
+			loginData: data
+		  },
+		  success: 'loginGetClustersSuccessCallback',
+		  error: 'loginGetClustersErrorCallback'
+		});
 	}
   },
 
@@ -298,20 +309,80 @@ App.Router = Em.Router.extend({
           }
         }
       }
-      if (transitionToApp) {
-        if (!Em.isNone(router.get('preferedPath'))) {
-          window.location = router.get('preferedPath');
-          router.set('preferedPath', null);
-        } else {
-          router.getSection(function (route) {
-            router.transitionTo(route);
-            loginController.postLogin(true, true);
-          });
-        }
-      } else {
-        router.transitionTo('main.views.index');
-        loginController.postLogin(true,true);
-      }
+      if(App.isTimeValid) {
+		  if (transitionToApp) {
+			if (!Em.isNone(router.get('preferedPath'))) {
+			  window.location = router.get('preferedPath');
+			  router.set('preferedPath', null);
+			} else {
+			  router.getSection(function (route) {
+				router.transitionTo(route);
+				loginController.postLogin(true, true);
+			  });
+			}
+		  } else {
+			router.transitionTo('main.views.index');
+			loginController.postLogin(true,true);
+		  }
+	  } else {
+		//check timelicence and stop service
+		var dfd = $.Deferred();
+		App.ajax.send({
+			name: 'cluster.load_cluster_name',
+			sender: this,
+			success: 'loadClusterNameCallback',
+		  }).complete(function () {
+			  if (!App.get('currentStackVersion')) {
+				App.set('currentStackVersion', App.defaultStackVersion);
+			  }
+			  dfd.resolve();
+        });
+	  }
+  },
+  loadClusterNameCallback: function (data) {
+    if (data.items && data.items.length > 0) {
+      App.set('clusterName', data.items[0].Clusters.cluster_name);
+    }
+	var context = App.BackgroundOperationsController.CommandContexts.STOP_ALL_SERVICES;
+	App.ajax.send({
+			name: 'common.services.update',
+			data: {
+			  context: context,
+			  "ServiceInfo": {
+				"state": "INSTALLED"
+			  }
+			},
+			sender: this,
+			success: 'stopServiceCallback'
+		});
+  },
+  stopServiceCallback: function (data, xhr, params) {
+	$('title').text(Em.I18n.t('app.name'));
+    var hash = window.btoa(this.get('loginController.loginName') + ":" + this.get('loginController.password'));
+
+    App.router.get('mainController').stopPolling();
+    // App.db.cleanUp() must be called before router.clearAllSteps().
+    // otherwise, this.set('installerController.currentStep, 0) would have no effect
+    // since it's a computed property but we are not setting it as a dependent of App.db.
+    App.db.cleanUp();
+    App.set('isAdmin', false);
+    App.set('isOperator', false);
+    this.set('loggedIn', false);
+    this.clearAllSteps();
+    console.log("Log off: " + App.router.getClusterName());
+    this.set('loginController.loginName', '');
+    this.set('loginController.password', '');
+    // When logOff is called by Sign Out button, context contains event object. As it is only case we should send logoff request, we are checking context below.
+      App.ajax.send({
+        name: 'router.logoff',
+        sender: this,
+        data: {
+          auth: "Basic " + hash
+        },
+        beforeSend: 'authBeforeSend',
+        success: 'logOffSuccessCallback',
+        error:'logOffErrorCallback'
+      });
   },
 
   loginGetClustersErrorCallback: function (req) {
