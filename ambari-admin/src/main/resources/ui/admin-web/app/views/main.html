@@ -17,51 +17,51 @@
 -->
 <div class="panel panel-default mainpage">
   <div class="panel-body">
-    <h1>Welcome to Apache Ambari</h1>
+    <h1>欢迎来到前海闪电大数据系统</h1>
     <div ng-if="isLoaded" id="main-operations-boxes" class="row thumbnails">
-      <p ng-hide="cluster">Provision a cluster, manage who can access the cluster, and customize views for Ambari users.</p>
-      <p ng-show="cluster">Monitor your cluster resources, manage who can access the cluster, and customize views for Ambari users.</p>
+      <p ng-hide="cluster">您可以在此管理集群资源,自定义集群的使用者,为用户自定义视图.</p>
+      <p ng-show="cluster">您可以在此管理集群资源,自定义集群的使用者,为用户自定义视图.</p>
 
         <!--Clusters-->
       <div ng-show="cluster" class="col-sm-11 thumbnail">
-        <h4 class="title">Operate Your Cluster</h4>
-        <div class="description">Manage the configuration of your cluster and monitor the health of your services</div>
+        <h4 class="title">管理您的集群</h4>
+        <div class="description">管理您的集群的配置并监控您的服务的健康状况</div>
         <div class="glyphicon glyphicon-cloud"></div>
         <div class="buttons">
         <span ng-class="{active: isActive('clusters.manageAccess')}">
-          <a ng-show="cluster.Clusters.provisioning_state != 'INSTALLED'" href class="btn btn-primary permission-button" ng-disabled="cluster.Clusters.provisioning_state != 'INSTALLED' ">Manage Permissions</a>
-          <a ng-show="cluster.Clusters.provisioning_state == 'INSTALLED'" href="#/clusters/{{cluster.Clusters.cluster_name}}/manageAccess" class="btn btn-primary permission-button" ng-disabled="cluster.Clusters.provisioning_state != 'INSTALLED' ">Manage Permissions</a>
+          <a ng-show="cluster.Clusters.provisioning_state != 'INSTALLED'" href class="btn btn-primary permission-button" ng-disabled="cluster.Clusters.provisioning_state != 'INSTALLED' ">权限管理</a>
+          <a ng-show="cluster.Clusters.provisioning_state == 'INSTALLED'" href="#/clusters/{{cluster.Clusters.cluster_name}}/manageAccess" class="btn btn-primary permission-button" ng-disabled="cluster.Clusters.provisioning_state != 'INSTALLED' ">权限管理</a>
         </span>
         <span>
-          <a ng-show="cluster.Clusters.provisioning_state != 'INSTALLED'" href class="btn btn-primary go-dashboard-button" ng-disabled="cluster.Clusters.provisioning_state != 'INSTALLED' ">Go to Dashboard</a>
-          <a ng-show="cluster.Clusters.provisioning_state == 'INSTALLED'" href="/#/main/dashboard/metrics" class="btn btn-primary go-dashboard-button" ng-disabled="cluster.Clusters.provisioning_state != 'INSTALLED' ">Go to Dashboard</a>
+          <a ng-show="cluster.Clusters.provisioning_state != 'INSTALLED'" href class="btn btn-primary go-dashboard-button" ng-disabled="cluster.Clusters.provisioning_state != 'INSTALLED' ">返回仪表盘页面</a>
+          <a ng-show="cluster.Clusters.provisioning_state == 'INSTALLED'" href="/#/main/dashboard/metrics" class="btn btn-primary go-dashboard-button" ng-disabled="cluster.Clusters.provisioning_state != 'INSTALLED' ">返回仪表盘页面</a>
         </span>
         </div>
       </div>
       <div ng-hide="cluster" class="col-sm-11 thumbnail">
-        <h4 class="title">Create a Cluster</h4>
-        <div class="description">Use the Install Wizard to select services and configure your cluster</div>
+        <h4 class="title">创建集群</h4>
+        <div class="description">利用创建向导选择服务并配置您的集群</div>
         <div class="glyphicon glyphicon-cloud"></div>
-        <div class="buttons"> <a href="/#/installer/step0" class="btn btn-primary create-cluster-button">Launch Install Wizard</a></div>
+        <div class="buttons"> <a href="/#/installer/step0" class="btn btn-primary create-cluster-button">启动创建向导</a></div>
       </div>
 
         <!--Manage Users and groups-->
       <div class="col-sm-5 thumbnail">
-        <h4 class="title">Manage Users + Groups</h4>
-        <div class="description">Manage the users and groups that can access Ambari</div>
+        <h4 class="title">管理用户和组</h4>
+        <div class="description">管理可以使用集群的用户和组</div>
         <div class="glyphicon glyphicon-user"></div>
         <div class="buttons">
-          <span ng-class="{active: isActive('users.list')}"><link-to route="users.list" class="btn btn-primary userslist-button">Users</link-to></span>
-          <span ng-class="{active: isActive('groups.list')}"><link-to route="groups.list" class="btn btn-primary groupslist-button">Groups</link-to></span>
+          <span ng-class="{active: isActive('users.list')}"><link-to route="users.list" class="btn btn-primary userslist-button">用户</link-to></span>
+          <span ng-class="{active: isActive('groups.list')}"><link-to route="groups.list" class="btn btn-primary groupslist-button">组</link-to></span>
         </div>
       </div>
 
         <!--Deploy Views-->
       <div class="col-sm-5 thumbnail">
-        <h4 class="title">Deploy Views</h4>
-        <div class="description">Create view instances and grant permissions</div>
+        <h4 class="title">展开视图</h4>
+        <div class="description">创建视图实例并设置权限</div>
         <div class="glyphicon glyphicon-th"></div>
-        <div ng-class="{active: isActive('views.list')}" class="buttons"><link-to route="views.list" class="btn btn-primary viewslist-button">Views</link-to></div>
+        <div ng-class="{active: isActive('views.list')}" class="buttons"><link-to route="views.list" class="btn btn-primary viewslist-button">视图</link-to></div>
         </div>
       </div>
   </div>

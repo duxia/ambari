@@ -16,20 +16,20 @@
 * limitations under the License.
 -->
 <ol class="breadcrumb">
-  <li><a href="#/views">Views</a></li>
-  <li class="active">Create Instance</li>
+  <li><a href="#/views">视图</a></li>
+  <li class="active">创建实例</li>
 </ol>
 <hr>
 <form class="form-horizontal create-view-form" role="form" name="form.instanceCreateForm" novalidate>
   <div class="view-header">
     <div class="form-group">
       <div class="col-sm-2">
-        <label for="" class="control-label">View</label>
+        <label for="" class="control-label">视图</label>
       </div>
       <div class="col-sm-10"><label for="" class="control-label">{{view.ViewVersionInfo.view_name}}</label></div>
     </div>
     <div class="form-group">
-      <div class="col-sm-2"><label for="" class="control-label">Version</label></div>
+      <div class="col-sm-2"><label for="" class="control-label">版本</label></div>
       <div class="col-sm-2">
         <select ng-model="version" class="instanceversion-input form-control" ng-change="versionChanged()" ng-options="o as o for o in versions"></select>
       </div>
@@ -38,47 +38,47 @@
   
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Details</h3>
+      <h3 class="panel-title">更多</h3>
     </div>
     <div class="panel-body">
       <div class="form-group" 
       ng-class="{'has-error' : ( (form.instanceCreateForm.instanceNameInput.$error.required || form.instanceCreateForm.instanceNameInput.$error.pattern) && form.instanceCreateForm.submitted) || instanceExists }"
       >
-        <label for="" class="control-label col-sm-2">Instance Name</label>
+        <label for="" class="control-label col-sm-2">实例名称</label>
         <div class="col-sm-10">
           <input type="text" class="form-control instancename-input" name="instanceNameInput" ng-pattern="nameValidationPattern" required ng-model="instance.instance_name" autocomplete="off">
 
           <div class="alert alert-danger no-margin-bottom top-margin" ng-show='form.instanceCreateForm.instanceNameInput.$error.required && form.instanceCreateForm.submitted'>
-            This field is required.
+            实例名称不能为空.
           </div>
           <div class="alert alert-danger no-margin-bottom top-margin" ng-show='form.instanceCreateForm.instanceNameInput.$error.pattern && form.instanceCreateForm.submitted'>
-            Must not contain any special characters or spaces.
+            只能包含简单字符或空格.
           </div>
           <div class="alert alert-danger no-margin-bottom top-margin" ng-show='instanceExists'>
-            Instance with this name already exists.
+            该实例名称已经存在.
           </div>
         </div>
       </div>
       <div class="form-group"
       ng-class="{'has-error' : ( (form.instanceCreateForm.displayLabel.$error.required || form.instanceCreateForm.displayLabel.$error.pattern) && form.instanceCreateForm.submitted)}">
-        <label for="" class="control-label col-sm-2">Display Name</label>
+        <label for="" class="control-label col-sm-2">显示名称</label>
         <div class="col-sm-10">
           <input type="text" class="form-control instancelabel-input" name="displayLabel" ng-model="instance.label" required ng-pattern="/^([a-zA-Z0-9._\s]+)$/" autocomplete="off">
 
           <div class="alert alert-danger no-margin-bottom top-margin" ng-show='form.instanceCreateForm.displayLabel.$error.required && form.instanceCreateForm.submitted'>
-            This field is required.
+            显示名称不能为空.
           </div>
           <div class="alert alert-danger no-margin-bottom top-margin" ng-show='form.instanceCreateForm.displayLabel.$error.pattern && form.instanceCreateForm.submitted'>
-            Must not contain any special characters.
+            只能包含简单字符.
           </div>
         </div>
       </div>
       <div class="form-group" ng-class="{'has-error' : form.instanceCreateForm.description.$error.required && form.instanceCreateForm.submitted }">
-        <label for="" class="control-label col-sm-2">Description</label>
+        <label for="" class="control-label col-sm-2">描述</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" name="description" ng-model="instance.description" maxlength="140" required>
           <div class="alert alert-danger no-margin-bottom top-margin" ng-show='form.instanceCreateForm.description.$error.required && form.instanceCreateForm.submitted'>
-            This field is required.
+            描述不能为空.
           </div>
         </div>
       </div>
@@ -86,7 +86,7 @@
         <div class="col-sm-10 col-sm-offset-2">
           <div class="checkbox">
             <label>
-              <input type="checkbox" ng-model='instance.visible' class="visibilityCheckbox"> Visible
+              <input type="checkbox" ng-model='instance.visible' class="visibilityCheckbox"> 现有的
             </label>
           </div>
         </div>
@@ -95,7 +95,7 @@
   </div>
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Properties</h3>
+      <h3 class="panel-title">属性</h3>
     </div>
     <div class="panel-body property-form">
       <div class="form-group" ng-repeat="parameter in instance.properties"
@@ -104,19 +104,19 @@
         <div class="col-sm-9">
           <input type="{{parameter.masked ? 'password' : 'text'}}" class="form-control viewproperty-input"  name="{{parameter.name}}" ng-required="parameter.required" ng-model="parameter.value" autocomplete="off" tooltip="{{parameter.description}}">
           <div class="alert alert-danger no-margin-bottom top-margin" ng-show='form.instanceCreateForm[parameter.name].$error.required && form.instanceCreateForm.submitted'>
-            This field is required.
+            属性不能为空.
           </div>
         </div>
       </div>
       <div ng-show="!instance.properties.length">
-        <div class="alert alert-info">There are no properties defined for this view.</div>
+        <div class="alert alert-info">没有定义该视图的属性.</div>
       </div>
     </div>
   </div>
   
   <div class="col-sm-12 ">
-    <button class="btn btn-primary pull-right left-margin save-button" ng-click="save()" type="submit">Save</button>
-    <a href ng-click="cancel()" class="btn btn-default pull-right cancel-button">Cancel</a>
+    <button class="btn btn-primary pull-right left-margin save-button" ng-click="save()" type="submit">保存</button>
+    <a href ng-click="cancel()" class="btn btn-default pull-right cancel-button">取消</a>
   </div>
     
 </form>

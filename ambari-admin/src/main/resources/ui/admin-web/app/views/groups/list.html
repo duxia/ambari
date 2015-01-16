@@ -18,10 +18,10 @@
 <div class="groups-pane">
   <div class="clearfix">
     <ol class="breadcrumb pull-left">
-      <li class="active">Groups</li>
+      <li class="active">用户组</li>
     </ol>
     <div class="pull-right top-margin-4">
-      <link-to route="groups.create" class="btn btn-primary creategroup-btn"><span class="glyphicon glyphicon-plus"></span> Create Local Group</link-to>
+      <link-to route="groups.create" class="btn btn-primary creategroup-btn"><span class="glyphicon glyphicon-plus"></span> 创建用户组</link-to>
     </div>
   </div>
   <hr>
@@ -30,13 +30,13 @@
       <tr>
         <th class="col-sm-8">
           <div class="search-container">
-            <label for="">Group Name</label>
+            <label for="">组名</label>
             <input type="text" class="form-control namefilter" placeholder="Any" ng-model="currentNameFilter" ng-change="resetPagination()">
-            <button type="button" class="close" ng-show="currentNameFilter" ng-click="currentNameFilter=''; resetPagination()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <button type="button" class="close" ng-show="currentNameFilter" ng-click="currentNameFilter=''; resetPagination()"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
           </div>
         </th>
         <th class="col-sm-2">
-          <label for="">Type</label>
+          <label for="">类型</label>
           <select class="form-control typefilter"
             ng-model="currentTypeFilter"
             ng-options="item.label for item in typeFilterOptions"
@@ -44,7 +44,7 @@
           </select>
         </th>
         <th class="col-sm-2 vertical-top">
-          <label for="">Members</label>
+          <label for="">成员</label>
         </th>
       </tr>
     </thead>
@@ -59,7 +59,7 @@
     </tbody>
   </table>
   <div class="alert alert-info col-sm-12" ng-show="!groups.length">
-    No groups to display.
+    没有可以显示的用户组.
   </div>
   <div class="col-sm-12">
     <div class="pull-right left-margin">

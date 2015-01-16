@@ -17,7 +17,7 @@
 -->
 <div class="left-navbar" xmlns="http://www.w3.org/1999/html">
   <div class="panel panel-default">
-    <div class="panel-heading"><span class="glyphicon glyphicon-cloud"></span> Clusters</div>
+    <div class="panel-heading"><span class="glyphicon glyphicon-cloud"></span> 集群</div>
     <div class="panel-body">
       <div ng-show="cluster">
         <div id="cluster-name"  ng-switch on="editCluster.editingName">
@@ -56,36 +56,36 @@
 
         <ul class="nav nav-pills nav-stacked" ng-show="cluster.Clusters.provisioning_state == 'INSTALLED' ">
           <li ng-class="{active: isActive('clusters.manageAccess')}">
-            <a href="#/clusters/{{cluster.Clusters.cluster_name}}/manageAccess" class="permissions">Permissions</a>
+            <a href="#/clusters/{{cluster.Clusters.cluster_name}}/manageAccess" class="permissions">权限</a>
           </li>
-          <li><a href="#/dashboard"  class="gotodashboard">Go to Dashboard</a></li>
+          <li><a href="#/dashboard"  class="gotodashboard">返回仪表盘页面</a></li>
         </ul>
-        <span class="cluster-installation-progress-label" ng-show="cluster.Clusters.provisioning_state == 'INIT'"><a href="/#/">Cluster creation in progress...</a></span>
+        <span class="cluster-installation-progress-label" ng-show="cluster.Clusters.provisioning_state == 'INIT'"><a href="/#/">创建集群中...</a></span>
       </div>
         
       <div ng-hide="cluster">
         <ul class="nav nav-pills nav-stacked">
-          <li><p class="noclusters">No clusters</p></li>
+          <li><p class="noclusters">没有集群</p></li>
         </ul>
       </div>
     </div>
   </div>
 
   <div class="panel panel-default">
-    <div class="panel-heading"><span class="glyphicon glyphicon-th"></span> Views</div>
+    <div class="panel-heading"><span class="glyphicon glyphicon-th"></span> 视图</div>
     <div class="panel-body">
       <ul class="nav nav-pills nav-stacked">
-        <li ng-class="{active: isActive('views.list')}"><link-to route="views.list" class="viewslist-link">Views</link-to></li>
+        <li ng-class="{active: isActive('views.list')}"><link-to route="views.list" class="viewslist-link">视图</link-to></li>
       </ul>
     </div>
   </div>
 
   <div class="panel panel-default">
-    <div class="panel-heading"><span class="glyphicon glyphicon-user"></span> User + Group Management</div>
+    <div class="panel-heading"><span class="glyphicon glyphicon-user"></span> 用户和组</div>
     <div class="panel-body">
       <ul class="nav nav-pills nav-stacked">
-        <li ng-class="{active: isActive('users.list')}"><link-to route="users.list" class="userslist-link">Users</link-to></li>
-        <li ng-class="{active: isActive('groups.list')}"><link-to route="groups.list" class="groupslist-link">Groups</link-to></li>
+        <li ng-class="{active: isActive('users.list')}"><link-to route="users.list" class="userslist-link">用户</link-to></li>
+        <li ng-class="{active: isActive('groups.list')}"><link-to route="groups.list" class="groupslist-link">组</link-to></li>
       </ul>
         
     </div>
