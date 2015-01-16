@@ -23,6 +23,7 @@ import org.apache.ambari.server.state.cluster.EncryptData;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -130,7 +131,10 @@ public class UserEntity {
    * @return decrypt LicenceTime (type Date)
    */
   public Date getLicenceTime() {
-	Date decryptLicenceTime = createTime;
+	//TODO:1970-01-01 作为初始化,当用户未授权而擅自修改数据库时,自动锁死无法登录
+	Calendar date = Calendar.getInstance();	
+	date.set(1970,0,1);
+	Date decryptLicenceTime = date.getTime();
 	String decryptTimeString;
 	try {
 		decryptTimeString = new String(EncryptData.decrypt(licenceTime.getBytes("ISO-8859-1"), "frontsurf"));

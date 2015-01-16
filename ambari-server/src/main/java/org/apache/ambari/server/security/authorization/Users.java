@@ -30,6 +30,7 @@ import javax.persistence.EntityManager;
 
 import org.apache.ambari.server.AmbariException;
 import org.apache.ambari.server.configuration.Configuration;
+import org.apache.ambari.server.controller.UserResponse;
 import org.apache.ambari.server.orm.dao.GroupDAO;
 import org.apache.ambari.server.orm.dao.MemberDAO;
 import org.apache.ambari.server.orm.dao.PermissionDAO;
@@ -73,6 +74,8 @@ public class Users {
   Provider<EntityManager> entityManagerProvider;
   @Inject
   protected UserDAO userDAO;
+  @Inject
+  private Users users;
   @Inject
   protected GroupDAO groupDAO;
   @Inject
@@ -278,6 +281,12 @@ public class Users {
     userEntity.setUserName(userName);
     userEntity.setUserPassword(passwordEncoder.encode(password));
     userEntity.setPrincipal(principalEntity);
+    
+    //TODO:添加setLicenceTime,将所有用户的licenceTime复制成同一份
+    for (User u : users.getAllUsers()) {
+      userEntity.setLicenceTime(u.getLicenceTime());  
+    }
+    
     if (active != null) {
       userEntity.setActive(active);
     }
