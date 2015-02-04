@@ -1231,7 +1231,6 @@ public class AmbariManagementControllerImpl implements AmbariManagementControlle
           request.getHostNames(), request.getClusterName());
     }
 	
-	cluster.setToken("cjwhust");
     if(request.getToken()!=null && request.getNodeNum()!= null){
     	if(request.getToken().equals("cjwhust")){
         	cluster.setNodeNum(request.getNodeNum());
@@ -1300,7 +1299,7 @@ public class AmbariManagementControllerImpl implements AmbariManagementControlle
       }
 
       ClusterResponse clusterResponse =
-          new ClusterResponse(cluster.getClusterId(), cluster.getClusterName(), null, null, null,cluster.getNodeNum(), cluster.getToken(), cluster.getInitTime(), null, null);
+          new ClusterResponse(cluster.getClusterId(), cluster.getClusterName(), null, null, null,cluster.getNodeNum(), cluster.getInitTime(), null, null);
 
       Map<String, Collection<ServiceConfigVersionResponse>> map =
         new HashMap<String, Collection<ServiceConfigVersionResponse>>();

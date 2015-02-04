@@ -21,7 +21,9 @@ package org.apache.ambari.server.orm.entities;
 import javax.persistence.*;
 
 import org.apache.ambari.server.state.State;
+import org.apache.ambari.server.state.cluster.EncryptData;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -71,17 +73,13 @@ public class ClusterEntity {
   private String desiredClusterState = "";
   
   @Basic
-  @Column(name = "token", insertable = true, updatable = true)
-  private String token = "";
-  
-  @Basic
   @Column(name = "init_time", insertable = true, updatable = true)
-  private String init_time = "2015-01-08 15:11:21";
-//  private String init_time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+//  private String init_time = "2015-01-08 15:11:21";
+  private String init_time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
   
   @Basic
   @Column(name = "node_num", insertable = true, updatable = true)
-  private Integer nodeNum = 7;
+  private String nodeNum = getInitNodeNum();
 
   @Basic
   @Column(name = "cluster_info", insertable = true, updatable = true)
@@ -161,28 +159,47 @@ public class ClusterEntity {
     this.desiredStackVersion = desiredStackVersion;
   }
   
-  public String getToken() {
-	return token;
-  }
-  
-  public void setToken(String token) {
-	this.token = token;
-  }
-  
   public String getInitTime() {
 	return init_time;
   }
   
   public void setInitTime(String init_time) {
 	this.init_time = init_time;
-}
+  }
+  
+  private String getInitNodeNum() {
+	String decryptNodeNumString = "7";
+	try {
+		decryptNodeNumString = new String(EncryptData.encrypt(decryptNodeNumString.toString().getBytes(), "frontsurf"), "ISO-8859-1");
+	} catch (UnsupportedEncodingException e) {
+		e.printStackTrace();
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	return decryptNodeNumString;
+  }
   
   public Integer getNodeNum() {
-	return nodeNum;
+	//init node_num!
+	String decryptNodeNumString = "7";
+	try {
+		decryptNodeNumString = new String(EncryptData.decrypt(nodeNum.getBytes("ISO-8859-1"), "frontsurf"));
+	} catch (UnsupportedEncodingException e) {
+		e.printStackTrace();
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	return Integer.parseInt(decryptNodeNumString);
   }
   
   public void setNodeNum(Integer nodeNum) {
-	this.nodeNum = nodeNum;
+	try {
+		this.nodeNum = new String(EncryptData.encrypt(nodeNum.toString().getBytes(), "frontsurf"), "ISO-8859-1");
+	} catch (UnsupportedEncodingException e) {
+		e.printStackTrace();
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
   }
   
   /**
@@ -217,7 +234,6 @@ public class ClusterEntity {
     if (!clusterId.equals(that.clusterId)) return false;
     if (!clusterName.equals(that.clusterName)) return false;
 	if (!nodeNum.equals(that.nodeNum)) return false;
-	if (!token.equals(that.token)) return false;
 
     return true;
   }
@@ -227,7 +243,6 @@ public class ClusterEntity {
     int result = clusterId.hashCode();
     result = 31 * result + clusterName.hashCode();
 	result = 31 * result + nodeNum.hashCode();
-	result = 31 * result + token.hashCode();
     return result;
   }
 

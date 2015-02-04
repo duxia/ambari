@@ -44,10 +44,8 @@ public interface Cluster {
    * @return
    */
   public Integer getNodeNum();
-  public String getToken();
   public String getInitTime();
   public void setNodeNum(Integer nodeNum);
-  public void setToken(String token);
   public void setInitTime(String init_time);
   
   /**

@@ -177,7 +177,6 @@ public class ClusterResourceProvider extends BaseBlueprintProcessor {
       setResourceProperty(resource, CLUSTER_PROVISIONING_STATE_PROPERTY_ID, response.getProvisioningState(), requestedIds);
       setResourceProperty(resource, CLUSTER_DESIRED_CONFIGS_PROPERTY_ID, response.getDesiredConfigs(), requestedIds);
 	  setResourceProperty(resource, CLUSTER_NODENUM, response.getNodeNum(), requestedIds);
-	  setResourceProperty(resource, CLUSTER_TOKEN, response.getToken(), requestedIds);
 	  setResourceProperty(resource, CLUSTER_INITTIME, response.getInitTime(), requestedIds);
       setResourceProperty(resource, CLUSTER_DESIRED_SERVICE_CONFIG_VERSIONS_PROPERTY_ID,
         response.getDesiredServiceConfigVersions(), requestedIds);

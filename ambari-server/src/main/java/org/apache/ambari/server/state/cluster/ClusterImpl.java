@@ -18,7 +18,6 @@
 
 package org.apache.ambari.server.state.cluster;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -658,24 +657,6 @@ public class ClusterImpl implements Cluster {
 	      clusterGlobalLock.readLock().unlock();
 	    }
   }
-  
-  @Override
-  public void setToken(String token){
-	  clusterGlobalLock.readLock().lock();
-	    try {
-	      writeLock.lock();
-	      try {
-//	        Integer oldNum = clusterEntity.getNodeNum();
-	        clusterEntity.setToken(token);
-	        clusterDAO.merge(clusterEntity); //RollbackException possibility if UNIQUE constraint violated
-//	        clusters.updateClusterName(oldNum, nodeNum);
-	      } finally {
-	        writeLock.unlock();
-	      }
-	    } finally {
-	      clusterGlobalLock.readLock().unlock();
-	    }
-  }
 
   @Override
   public void setInitTime(String init_time){
@@ -684,14 +665,9 @@ public class ClusterImpl implements Cluster {
 	      writeLock.lock();
 	      try {
 //	        Integer oldNum = clusterEntity.getNodeNum();
-	    	String encrypt_init_time = new String(EncryptData.encrypt(init_time.getBytes(), "frontsurf"), "ISO-8859-1");
-	        clusterEntity.setInitTime(encrypt_init_time);
+	        clusterEntity.setInitTime(init_time);
 	        clusterDAO.merge(clusterEntity); //RollbackException possibility if UNIQUE constraint violated
 //	        clusters.updateClusterName(oldNum, nodeNum);
-	    } catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
 		} finally {
 	        writeLock.unlock();
 	      }
@@ -899,36 +875,12 @@ public class ClusterImpl implements Cluster {
   }
   
   @Override
-  public String getToken(){
-	  clusterGlobalLock.readLock().lock();
-	    try {
-	      readLock.lock();
-	      try {
-	        return clusterEntity.getToken();
-	      } finally {
-	        readLock.unlock();
-	      }
-	    } finally {
-	      clusterGlobalLock.readLock().unlock();
-	    }
-  }
-  
-  @Override
   public String getInitTime(){
 	  clusterGlobalLock.readLock().lock();
 	    try {
 	      readLock.lock();
 	      try { 
-	    	String encrypt_init_time = clusterEntity.getInitTime();
-	    	String decrypt_init_time = "";
-	    	try {
-				decrypt_init_time = new String(EncryptData.decrypt(clusterEntity.getInitTime().getBytes("ISO-8859-1"), "frontsurf"));
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-	        return decrypt_init_time;
+	        return clusterEntity.getInitTime();
 	      } finally {
 	        readLock.unlock();
 	      }
@@ -1291,7 +1243,7 @@ public class ClusterImpl implements Cluster {
 
         return new ClusterResponse(getClusterId(),
           getClusterName(), getProvisioningState(), hosts.keySet(), hosts.size(),
-		  getNodeNum(), getToken(), getInitTime(),
+		  getNodeNum(), getInitTime(),
           getDesiredStackVersion().getStackId(), getClusterHealthReport());
       } finally {
         readWriteLock.readLock().unlock();

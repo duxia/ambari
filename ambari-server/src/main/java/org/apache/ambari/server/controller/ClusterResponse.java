@@ -36,8 +36,6 @@ public class ClusterResponse {
 
   private final Set<String> hostNames;
   
-  private String token;
-  
   private String init_time;
   
   private Integer nodeNum;
@@ -56,7 +54,7 @@ public class ClusterResponse {
   
   public ClusterResponse(Long clusterId, String clusterName,
     State provisioningState, Set<String> hostNames, Integer totalHosts,
-	Integer nodeNum, String token, String init_time, 
+	Integer nodeNum, String init_time, 
     String desiredStackVersion, ClusterHealthReport clusterHealthReport) {
 
     super();
@@ -66,7 +64,6 @@ public class ClusterResponse {
     this.totalHosts = totalHosts;
     this.desiredStackVersion = desiredStackVersion;
     this.clusterHealthReport = clusterHealthReport;
-	this.token = token;
 	this.init_time = init_time;
 	this.nodeNum = nodeNum;
     
@@ -149,10 +146,6 @@ public class ClusterResponse {
         !clusterName.equals(that.clusterName) : that.clusterName != null) {
       return false;
     }
-    if (token != null ? 
-    	!token.equals(that.token) : that.token != null){
-      return false;
-    }
     if (nodeNum != null ?
     	!nodeNum.equals(that.nodeNum) : that.nodeNum != null){
        return false;
@@ -170,7 +163,6 @@ public class ClusterResponse {
     int result = clusterId != null ? clusterId.intValue() : 0;
     result = 71 * result + (clusterName != null ? clusterName.hashCode() : 0);
     result = 71 * result + (nodeNum != null ? nodeNum.intValue() : 0);
-    result = 71 * result + (token != null ? token.hashCode() : 0);
     result = 71 * result + (init_time != null ? init_time.hashCode() : 0);
     return result;
   }
@@ -194,14 +186,6 @@ public class ClusterResponse {
    */
   public Map<String, DesiredConfig> getDesiredConfigs() {
     return desiredConfigs;
-  }
-
-  public String getToken() {
-	return token;
-  }
-  
-  public void setToken(String token) {
-	this.token = token;
   }
   
   public String getInitTime() {
