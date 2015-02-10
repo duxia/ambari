@@ -17,6 +17,8 @@
  */
 package org.apache.ambari.server.controller.internal;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -42,6 +44,7 @@ import org.apache.ambari.server.controller.spi.ResourceProvider;
 import org.apache.ambari.server.controller.spi.SystemException;
 import org.apache.ambari.server.controller.spi.UnsupportedPropertyException;
 import org.apache.ambari.server.controller.utilities.PropertyHelper;
+import org.apache.ambari.server.controller.utilities.RSAutils;
 import org.apache.ambari.server.orm.dao.BlueprintDAO;
 import org.apache.ambari.server.orm.entities.BlueprintConfigEntity;
 import org.apache.ambari.server.orm.entities.BlueprintEntity;
@@ -111,7 +114,24 @@ public class ClusterResourceProvider extends BaseBlueprintProcessor {
     super(propertyIds, keyPropertyIds, managementController);
   }
 
-
+  // ----- Decrypt Node_Num -------------------------------------------------
+  private Integer decryptNodeNum(String encryptNodeNum) {
+	String publicKeyFile = "/usr/lib/ambari-server/public.key";
+	Integer decryptNodeNum = null;
+	try {
+		decryptNodeNum = Integer.valueOf(RSAutils.decrypt(RSAutils.getPublicKey(publicKeyFile), encryptNodeNum));
+	} catch (ClassNotFoundException e) {
+		LOG.error("decryptNodeNum : ClassNotFoundException");
+		e.printStackTrace();
+	} catch (IOException e) {
+		e.printStackTrace();
+		LOG.error("decryptNodeNum : IOException");
+	} catch (GeneralSecurityException e) {
+		e.printStackTrace();
+		LOG.error("decryptNodeNum : GeneralSecurityException");
+	}
+	return decryptNodeNum;
+  }
   // ----- ResourceProvider ------------------------------------------------
 
   @Override
@@ -339,11 +359,14 @@ public class ClusterResourceProvider extends BaseBlueprintProcessor {
         (String) properties.get(CLUSTER_NAME_PROPERTY_ID),
         (String) properties.get(CLUSTER_PROVISIONING_STATE_PROPERTY_ID),
         (String) properties.get(CLUSTER_VERSION_PROPERTY_ID),
-        properties.get(CLUSTER_NODENUM)!= null ? Integer.valueOf((String)properties.get(CLUSTER_NODENUM)): (Integer)properties.get(CLUSTER_NODENUM),
         (String) properties.get(CLUSTER_TOKEN),
         (String) properties.get(CLUSTER_INITTIME),
         null);
 
+    if(properties.get(CLUSTER_NODENUM)!= null) {
+    	String encryptNodeNum=(String)properties.get(CLUSTER_NODENUM);
+    	cr.setNodeNum(decryptNodeNum(encryptNodeNum));
+    }
     List<ConfigurationRequest> configRequests = getConfigurationRequests("Clusters", properties);
 
     ServiceConfigVersionRequest serviceConfigVersionRequest = getServiceConfigVersionRequest("Clusters", properties);
@@ -799,12 +822,14 @@ public class ClusterResourceProvider extends BaseBlueprintProcessor {
             (String) clusterProperties.get(CLUSTER_NAME_PROPERTY_ID),
             (String) clusterProperties.get(CLUSTER_PROVISIONING_STATE_PROPERTY_ID),
             (String) clusterProperties.get(CLUSTER_VERSION_PROPERTY_ID),
-			(Integer)clusterProperties.get(CLUSTER_NODENUM),
 			(String) clusterProperties.get(CLUSTER_TOKEN),
 			(String) clusterProperties.get(CLUSTER_INITTIME),
             null);
+          
+          if(clusterProperties.get(CLUSTER_NODENUM)!=null){
+        	  clusterRequest.setNodeNum(decryptNodeNum((String)clusterProperties.get(CLUSTER_NODENUM)));
+          }
         }
-
         List<ConfigurationRequest> listOfRequests =
           getConfigurationRequests("Clusters", clusterProperties);
         requestsPerService.addAll(listOfRequests);

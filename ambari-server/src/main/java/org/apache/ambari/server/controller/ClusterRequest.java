@@ -47,13 +47,13 @@ public class ClusterRequest {
   private ServiceConfigVersionRequest serviceConfigVersionRequest = null;
 
   public ClusterRequest(Long clusterId, String clusterName, 
-      String stackVersion,Integer nodeNum, String token, String init_time, Set<String> hostNames) {
-    this(clusterId, clusterName, null, stackVersion, nodeNum, token, init_time, hostNames);
+      String stackVersion, String token, String init_time, Set<String> hostNames) {
+    this(clusterId, clusterName, null, stackVersion, token, init_time, hostNames);
   }  
   
   public ClusterRequest(Long clusterId, String clusterName, 
       String provisioningState, String stackVersion, 
-	  Integer nodeNum, String token, String init_time, Set<String> hostNames) {
+      String token, String init_time, Set<String> hostNames) {
     super();
     this.clusterId = clusterId;
     this.clusterName = clusterName;
@@ -61,7 +61,6 @@ public class ClusterRequest {
     this.stackVersion = stackVersion;
 	this.token = token;
 	this.init_time = init_time;
-	this.nodeNum = nodeNum;
     this.hostNames = hostNames;    
   }
   

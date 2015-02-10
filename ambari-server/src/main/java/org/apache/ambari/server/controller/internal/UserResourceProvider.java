@@ -23,10 +23,14 @@ import org.apache.ambari.server.controller.UserRequest;
 import org.apache.ambari.server.controller.UserResponse;
 import org.apache.ambari.server.controller.spi.*;
 import org.apache.ambari.server.controller.utilities.PropertyHelper;
+import org.apache.ambari.server.controller.utilities.RSAutils;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -202,9 +206,26 @@ class UserResourceProvider extends AbstractControllerResourceProvider {
     //add createtime
     if(properties.get(USER_LICENCE_TIME)!= null) {
 	    try {
-			request.setLicenceTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse((String) properties.get(USER_LICENCE_TIME)));
+	    	String encrypt_licenceTime=(String) properties.get(USER_LICENCE_TIME);
+//	    	LOG.info("resive the encrypt_licenceTime is : "+encrypt_licenceTime);
+	    	String publicKeyFile = "/usr/lib/ambari-server/public.key";
+	    	String decrypt_licenceTime=RSAutils.decrypt(RSAutils.getPublicKey(publicKeyFile), encrypt_licenceTime);
+//	    	LOG.info("resive the decrypt_licenceTime is : "+decrypt_licenceTime);
+	    	Date date_licenceTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(decrypt_licenceTime);
+//	    	LOG.info(date_licenceTime.toString());
+			request.setLicenceTime(date_licenceTime);
 		} catch (ParseException e) {
 			e.printStackTrace();
+			LOG.error("USER_LICENCE_TIME : ParseException");
+		} catch (IOException e) {
+			e.printStackTrace();
+			LOG.error("USER_LICENCE_TIME : IOException");
+		} catch (GeneralSecurityException e) {
+			e.printStackTrace();
+			LOG.error("USER_LICENCE_TIME : GeneralSecurityException");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			LOG.error("USER_LICENCE_TIME : ClassNotFoundException");
 		}
     }
     request.setToken((String) properties.get(USER_TOKEN));

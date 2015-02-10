@@ -219,9 +219,9 @@ App.Router = Em.Router.extend({
 
   loginSuccessCallback: function(data, opt, params) {
     var dateNow = new Date().getTime();
-	var dateOld = data.Users.licence_time;
-	if((dateNow-dateOld)/(60*60*1000*24) > 0 && (dateNow-dateOld)/(60*60*1000*24) < 365) {
-		var str = "距离证书到期还有:"+Math.floor(365-(dateNow-dateOld)/(60*60*1000*24))+"天";
+	var dateLicence = data.Users.licence_time;
+	if((dateLicence-dateNow)/(60*60*1000*24) > 0) {
+		var str = "距离证书到期还有:"+Math.floor((dateLicence-dateNow)/(60*60*1000*24))+"天";
 		App.set('dateLimit',str);
 		App.set('isTimeValid',true);
 		console.log('login success');
