@@ -119,10 +119,7 @@ public class ClusterResourceProvider extends BaseBlueprintProcessor {
 	String publicKeyFile = "/usr/lib/ambari-server/public.key";
 	Integer decryptNodeNum = null;
 	try {
-		decryptNodeNum = Integer.valueOf(RSAutils.decrypt(RSAutils.getPublicKey(publicKeyFile), encryptNodeNum));
-	} catch (ClassNotFoundException e) {
-		LOG.error("decryptNodeNum : ClassNotFoundException");
-		e.printStackTrace();
+		decryptNodeNum = Integer.valueOf(RSAutils.decrypt(RSAutils.getPublicKeyFromStr(RSAutils.getStrFromFile(publicKeyFile)), encryptNodeNum));
 	} catch (IOException e) {
 		e.printStackTrace();
 		LOG.error("decryptNodeNum : IOException");

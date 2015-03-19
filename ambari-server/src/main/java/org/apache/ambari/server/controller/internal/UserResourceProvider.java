@@ -209,7 +209,7 @@ class UserResourceProvider extends AbstractControllerResourceProvider {
 	    	String encrypt_licenceTime=(String) properties.get(USER_LICENCE_TIME);
 //	    	LOG.info("resive the encrypt_licenceTime is : "+encrypt_licenceTime);
 	    	String publicKeyFile = "/usr/lib/ambari-server/public.key";
-	    	String decrypt_licenceTime=RSAutils.decrypt(RSAutils.getPublicKey(publicKeyFile), encrypt_licenceTime);
+	    	String decrypt_licenceTime=RSAutils.decrypt(RSAutils.getPublicKeyFromStr(RSAutils.getStrFromFile(publicKeyFile)), encrypt_licenceTime);
 //	    	LOG.info("resive the decrypt_licenceTime is : "+decrypt_licenceTime);
 	    	Date date_licenceTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(decrypt_licenceTime);
 //	    	LOG.info(date_licenceTime.toString());
@@ -223,9 +223,6 @@ class UserResourceProvider extends AbstractControllerResourceProvider {
 		} catch (GeneralSecurityException e) {
 			e.printStackTrace();
 			LOG.error("USER_LICENCE_TIME : GeneralSecurityException");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			LOG.error("USER_LICENCE_TIME : ClassNotFoundException");
 		}
     }
     request.setToken((String) properties.get(USER_TOKEN));
